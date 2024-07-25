@@ -1,0 +1,25 @@
+package com.saga.claim.infra.model;
+
+import com.saga.claim.infra.model.enums.ClaimStatus;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+
+@Entity(name = "Claim")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ClaimEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+    @Enumerated(EnumType.STRING)
+    ClaimStatus status;
+    Integer shipmentId;
+    String orderId;
+    BigDecimal amount;
+}
