@@ -1,16 +1,34 @@
 package com.saga.claim.domain.service;
 
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
+import com.saga.claim.domain.model.Claim;
 import com.saga.claim.domain.out.ClaimRepositoryApi;
+import com.saga.claim.domain.out.ShipmentProducerApi;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 public class ClaimDomainService implements ClaimDomainServiceApi {
 
     private final ClaimRepositoryApi claimRepositoryApi;
+    private final ShipmentProducerApi shipmentProducerApi;
 
     @Override
     public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId){
         claimRepositoryApi.createClaim(orderId, itemId, merchantInventoryId);
+    }
+
+    @Override
+    public void createShipment(Integer claimId){
+        Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claimId);
+        if (maybeClaim.isEmpty()) {
+            throw new RuntimeException("Invalid claim id: " + claimId);
+        }
+        Claim claim = maybeClaim.get();
+        shipmentProducerApi.createShipment(claim);
+        log.info("Initiated shipment for claim: {}", claimId);
     }
 }

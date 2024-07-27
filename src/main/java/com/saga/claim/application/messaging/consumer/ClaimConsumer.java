@@ -1,4 +1,4 @@
-package com.saga.claim.application.messaging;
+package com.saga.claim.application.messaging.consumer;
 
 import com.saga.claim.application.messaging.api.CreateClaim;
 import com.saga.claim.application.service.ClaimService;

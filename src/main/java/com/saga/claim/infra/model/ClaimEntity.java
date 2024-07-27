@@ -23,5 +23,7 @@ public class ClaimEntity {
     String orderId;
     BigDecimal refundAmount;
     Integer itemId;
-    Integer merchantInventoryId;
+    @OneToOne
+    @JoinColumn(name = "merchant_inventory_id", referencedColumnName = "id")
+    MerchantProductEntity product;
 }
