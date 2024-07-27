@@ -1,0 +1,1 @@
+alter table claim add unique (order_id, item_id, merchant_inventory_id);

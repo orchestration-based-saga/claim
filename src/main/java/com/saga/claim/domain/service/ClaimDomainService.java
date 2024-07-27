@@ -2,6 +2,7 @@ package com.saga.claim.domain.service;
 
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import com.saga.claim.domain.model.Claim;
+import com.saga.claim.domain.model.enums.ClaimStatusDomain;
 import com.saga.claim.domain.out.ClaimRepositoryApi;
 import com.saga.claim.domain.out.ShipmentProducerApi;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
             throw new RuntimeException("Invalid claim id: " + claimId);
         }
         Claim claim = maybeClaim.get();
+        claim = claim.updateStatus(ClaimStatusDomain.RETURNING_TO_WAREHOUSE);
+        claimRepositoryApi.save(claim);
         shipmentProducerApi.createShipment(claim);
         log.info("Initiated shipment for claim: {}", claimId);
     }

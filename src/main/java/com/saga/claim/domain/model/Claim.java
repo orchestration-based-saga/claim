@@ -1,7 +1,9 @@
 package com.saga.claim.domain.model;
 
 import com.saga.claim.domain.model.enums.ClaimStatusDomain;
+import lombok.Builder;
 
+@Builder
 public record Claim(
         Integer id,
         String orderId,
@@ -10,4 +12,8 @@ public record Claim(
         Integer shipmentId,
         ClaimStatusDomain status
 ) {
+
+    public Claim updateStatus(ClaimStatusDomain status) {
+        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, status);
+    }
 }

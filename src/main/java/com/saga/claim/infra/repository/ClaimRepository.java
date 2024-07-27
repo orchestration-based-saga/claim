@@ -35,4 +35,9 @@ public class ClaimRepository implements ClaimRepositoryApi {
         return claimEntityRepository.findById(claimId).map(mapper::toDomain);
     }
 
+    @Override
+    public void save(Claim claim) {
+        claimEntityRepository.save(mapper.toEntity(claim));
+    }
+
 }

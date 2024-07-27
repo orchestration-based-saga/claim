@@ -9,4 +9,6 @@ public interface ClaimRepositoryApi {
     void createClaim(String orderId, Integer itemId, Integer merchantInventoryId);
 
     Optional<Claim> getClaimById(Integer claimId);
+
+    void save(Claim claim);
 }
