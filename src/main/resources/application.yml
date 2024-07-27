@@ -2,7 +2,7 @@ spring:
   application:
     name: claim
   datasource:
-    url: jdbc:postgresql://localhost:5431/claimdb
+    url: jdbc:postgresql://localhost:5433/claimdb
     password: postgres
     username: postgres
   cloud:
@@ -30,4 +30,9 @@ spring:
             buffer.memory: 33554432
             linger.ms: 1
       function:
-        definition:
+        definition: claim
+      bindings:
+        claim-in-0:
+          destination: claim
+          content-type: application/json
+          group: claim_group

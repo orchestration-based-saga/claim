@@ -21,5 +21,7 @@ public class ClaimEntity {
     ClaimStatus status;
     Integer shipmentId;
     String orderId;
-    BigDecimal amount;
+    BigDecimal refundAmount;
+    Integer itemId;
+    Integer merchantInventoryId;
 }

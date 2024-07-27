@@ -1,0 +1,1 @@
+alter table claim rename column amount to refund_amount;
