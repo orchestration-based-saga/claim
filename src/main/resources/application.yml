@@ -7,7 +7,7 @@ spring:
     username: postgres
   cloud:
     function:
-      definition: claim;createShipment;updateClaim;
+      definition: createClaim;createShipment;updateClaim;
     config:
       enable: true
     stream:
@@ -32,8 +32,8 @@ spring:
             buffer.memory: 33554432
             linger.ms: 1
       bindings:
-        claim-in-0:
-          destination: claim
+        createClaim-in-0:
+          destination: create_claim
           content-type: application/json
           group: claim_group
         updateClaim-in-0:
