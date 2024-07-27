@@ -6,6 +6,8 @@ spring:
     password: postgres
     username: postgres
   cloud:
+    function:
+      definition: claim;createShipment;updateClaim;
     config:
       enable: true
     stream:
@@ -29,13 +31,15 @@ spring:
             batch.size: 16384
             buffer.memory: 33554432
             linger.ms: 1
-      function:
-        definition: claim;shipment;
       bindings:
         claim-in-0:
           destination: claim
           content-type: application/json
           group: claim_group
-        shipment-out-0:
-          destination: shipment
+        updateClaim-in-0:
+          destination: update_claim
+          content-type: application/json
+          group: claim_group
+        createShipment-out-0:
+          destination: create_shipment
           content-type: application/json

@@ -34,4 +34,20 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
         shipmentProducerApi.createShipment(claim);
         log.info("Initiated shipment for claim: {}", claimId);
     }
+
+    @Override
+    public void updateClaim(Claim claim) {
+        Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claim.id());
+        if (maybeClaim.isEmpty()) {
+            throw new RuntimeException("Couldn't find claim with id: " + "on update claim event");
+        }
+        Claim claimToUpdate = maybeClaim.get();
+        if (claim.status() != null) {
+            claimToUpdate = claimToUpdate.updateStatus(claim.status());
+        }
+        if (claim.shipmentId() != null) {
+            claimToUpdate = claimToUpdate.setShipmentId(claim.shipmentId());
+        }
+        claimRepositoryApi.save(claimToUpdate);
+    }
 }

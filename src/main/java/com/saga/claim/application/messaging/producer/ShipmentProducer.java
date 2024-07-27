@@ -18,7 +18,7 @@ public class ShipmentProducer implements ShipmentProducerApi {
 
     @Override
     public void createShipment(Claim claim) {
-        streamBridge.send(StreamBindingConstants.SHIPMENT, MessageBuilder.withPayload(
+        streamBridge.send(StreamBindingConstants.CREATE_SHIPMENT, MessageBuilder.withPayload(
                         new CreateShipment(
                                 claim.orderId(),
                                 claim.itemId(),

@@ -16,4 +16,8 @@ public record Claim(
     public Claim updateStatus(ClaimStatusDomain status) {
         return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, status);
     }
+
+    public Claim setShipmentId(Integer shipmentId) {
+        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, status);
+    }
 }
