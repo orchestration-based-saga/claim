@@ -1,5 +1,8 @@
 package com.saga.claim.application.messaging.api.enums;
 
 public enum ClaimState {
-    CREATED
+    CREATED,
+    RETURNING_TO_WAREHOUSE,
+    RETURN_TO_SELLER,
+    REFUNDED
 }
