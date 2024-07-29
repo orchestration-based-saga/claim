@@ -1,6 +1,6 @@
 package com.saga.claim.application.mapper;
 
-import com.saga.claim.application.messaging.ClaimUpdate;
+import com.saga.claim.application.messaging.api.ClaimUpdate;
 import com.saga.claim.domain.model.Claim;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

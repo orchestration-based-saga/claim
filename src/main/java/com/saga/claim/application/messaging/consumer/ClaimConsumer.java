@@ -1,7 +1,7 @@
 package com.saga.claim.application.messaging.consumer;
 
 import com.saga.claim.application.mapper.ClaimMapper;
-import com.saga.claim.application.messaging.ClaimUpdate;
+import com.saga.claim.application.messaging.api.ClaimUpdate;
 import com.saga.claim.application.messaging.api.CreateClaim;
 import com.saga.claim.application.service.ClaimService;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
