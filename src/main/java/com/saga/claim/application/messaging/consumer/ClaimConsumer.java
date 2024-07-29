@@ -3,6 +3,7 @@ package com.saga.claim.application.messaging.consumer;
 import com.saga.claim.application.mapper.ClaimMapper;
 import com.saga.claim.application.messaging.api.ClaimUpdate;
 import com.saga.claim.application.messaging.api.CreateClaim;
+import com.saga.claim.application.messaging.api.ShipmentUpdate;
 import com.saga.claim.application.service.ClaimService;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,16 @@ public class ClaimConsumer {
     @Bean
     public Consumer<Message<ClaimUpdate>> updateClaim() {
         return msg -> {
-            claimDomainServiceApi.updateClaim(claimMapper.fromUpdateMessage(msg.getPayload()));
+            claimDomainServiceApi.assignShipmentToClaim(claimMapper.fromUpdateMessage(msg.getPayload()));
+        };
+    }
+
+    @Bean
+    public Consumer<Message<ShipmentUpdate>> shipmentUpdate() {
+        return msg -> {
+            ShipmentUpdate shipmentUpdate = msg.getPayload();
+            claimDomainServiceApi.updateClaimByShipmentStatus(
+                    shipmentUpdate.claim().id(), claimMapper.fromShipmentStatus(shipmentUpdate.status()));
         };
     }
 }

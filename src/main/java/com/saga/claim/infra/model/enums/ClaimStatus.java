@@ -5,5 +5,6 @@ public enum ClaimStatus {
     RETURNING_TO_WAREHOUSE,
     RETURN_TO_SELLER,
     REFUNDED,
-    IN_DELIVERY
+    IN_DELIVERY,
+    DELIVERED
 }

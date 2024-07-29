@@ -3,6 +3,7 @@ package com.saga.claim.domain.service;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import com.saga.claim.domain.model.Claim;
 import com.saga.claim.domain.model.enums.ClaimStatusDomain;
+import com.saga.claim.domain.model.enums.ShipmentStatusDomain;
 import com.saga.claim.domain.out.ClaimRepositoryApi;
 import com.saga.claim.domain.out.ShipmentProducerApi;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,12 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
     private final ShipmentProducerApi shipmentProducerApi;
 
     @Override
-    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId){
+    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId) {
         claimRepositoryApi.createClaim(orderId, itemId, merchantInventoryId);
     }
 
     @Override
-    public void createShipment(Integer claimId){
+    public void createShipment(Integer claimId) {
         Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claimId);
         if (maybeClaim.isEmpty()) {
             throw new RuntimeException("Invalid claim id: " + claimId);
@@ -36,7 +37,7 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
     }
 
     @Override
-    public void updateClaim(Claim claim) {
+    public void assignShipmentToClaim(Claim claim) {
         Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claim.id());
         if (maybeClaim.isEmpty()) {
             throw new RuntimeException("Couldn't find claim with id: " + "on update claim event");
@@ -47,6 +48,20 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
         }
         if (claim.shipmentId() != null) {
             claimToUpdate = claimToUpdate.setShipmentId(claim.shipmentId());
+        }
+        claimRepositoryApi.save(claimToUpdate);
+    }
+
+    @Override
+    public void updateClaimByShipmentStatus(Integer claimId, ShipmentStatusDomain shipmentStatus) {
+        Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claimId);
+        if (maybeClaim.isEmpty()) {
+            throw new RuntimeException("Couldn't find claim with id: " + "on update claim event");
+        }
+        Claim claimToUpdate = maybeClaim.get();
+        if (shipmentStatus.equals(ShipmentStatusDomain.DELIVERED)) {
+            claimToUpdate = claimToUpdate.updateStatus(ClaimStatusDomain.DELIVERED);
+
         }
         claimRepositoryApi.save(claimToUpdate);
     }
