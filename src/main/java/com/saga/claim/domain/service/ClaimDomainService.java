@@ -4,6 +4,7 @@ import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import com.saga.claim.domain.model.Claim;
 import com.saga.claim.domain.model.enums.ClaimStatusDomain;
 import com.saga.claim.domain.model.enums.ShipmentStatusDomain;
+import com.saga.claim.domain.out.ClaimProducerApi;
 import com.saga.claim.domain.out.ClaimRepositoryApi;
 import com.saga.claim.domain.out.ShipmentProducerApi;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
 
     private final ClaimRepositoryApi claimRepositoryApi;
     private final ShipmentProducerApi shipmentProducerApi;
+    private final ClaimProducerApi claimProducerApi;
 
     @Override
     public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId) {
@@ -64,5 +66,6 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
 
         }
         claimRepositoryApi.save(claimToUpdate);
+        claimProducerApi.sendClaim(claimToUpdate);
     }
 }
