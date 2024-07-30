@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
+import java.util.List;
+
 @Mapper
 public interface ClaimEntityMapper {
 
@@ -17,6 +19,8 @@ public interface ClaimEntityMapper {
 
     @Mapping(target = "merchantInventoryId", source = "claimEntity.product.id")
     Claim toDomain(ClaimEntity claimEntity);
+
+    List<Claim> toDomain(List<ClaimEntity> claimEntityList);
 
     @Mapping(target = "product", source = "claim.merchantInventoryId", qualifiedByName = "linkProduct")
     @Mapping(target = "refundAmount", ignore = true)

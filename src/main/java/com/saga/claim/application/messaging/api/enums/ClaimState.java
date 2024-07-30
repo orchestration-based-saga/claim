@@ -6,5 +6,6 @@ public enum ClaimState {
     RETURN_TO_SELLER,
     REFUNDED,
     IN_DELIVERY,
-    DELIVERED
+    DELIVERED,
+    FINISHED
 }

@@ -1,5 +1,6 @@
 package com.saga.claim.domain.service;
 
+import com.saga.claim.domain.model.Refund;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import com.saga.claim.domain.model.Claim;
 import com.saga.claim.domain.model.enums.ClaimStatusDomain;
@@ -10,6 +11,7 @@ import com.saga.claim.domain.out.ShipmentProducerApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -67,5 +69,24 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
         }
         claimRepositoryApi.save(claimToUpdate);
         claimProducerApi.sendClaim(claimToUpdate);
+    }
+
+    @Override
+    public List<Claim> getClaims() {
+        return claimRepositoryApi.getAll();
+    }
+
+    @Override
+    public void initiateRefund(Refund refund) {
+        Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(refund.claimId());
+        if (maybeClaim.isEmpty()) {
+            throw new RuntimeException("Couldn't find claim with id: " + "on refund request");
+        }
+        Claim claim = maybeClaim.get();
+        claim = claim.updateStatus(ClaimStatusDomain.REFUNDED);
+        claim = claim.updateRefundAmount(refund.refundAmount());
+
+        claimRepositoryApi.save(claim);
+        claimProducerApi.sendClaim(claim);
     }
 }

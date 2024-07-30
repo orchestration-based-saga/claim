@@ -10,6 +10,7 @@ import com.saga.claim.infra.repository.jpa.ClaimEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -40,4 +41,8 @@ public class ClaimRepository implements ClaimRepositoryApi {
         claimEntityRepository.save(mapper.toEntity(claim));
     }
 
+    @Override
+    public List<Claim> getAll() {
+        return mapper.toDomain(claimEntityRepository.findAll());
+    }
 }
