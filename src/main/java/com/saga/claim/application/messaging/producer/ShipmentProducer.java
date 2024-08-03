@@ -24,7 +24,9 @@ public class ShipmentProducer implements ShipmentProducerApi {
                                 claim.itemId(),
                                 claim.merchantInventoryId(),
                                 claim.id(),
-                                ClaimState.valueOf(claim.status().name()))
+                                ClaimState.valueOf(claim.status().name()),
+                                claim.customerId(),
+                                claim.recipientId())
                 ).build()
         );
     }

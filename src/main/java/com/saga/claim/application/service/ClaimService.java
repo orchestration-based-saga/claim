@@ -18,10 +18,6 @@ public class ClaimService {
     private final ClaimDomainServiceApi claimDomainServiceApi;
     private final ClaimMapper claimMapper;
 
-    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId) {
-        claimDomainServiceApi.createClaim(orderId, itemId, merchantInventoryId);
-    }
-
     public void createShipment(StartShipmentRequest request){
         if (request.start()) {
             claimDomainServiceApi.createShipment(request.claimId());

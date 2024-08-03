@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class ClaimRepository implements ClaimRepositoryApi {
     private final ClaimEntityMapper mapper;
 
     @Override
-    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId) {
+    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId, UUID customerId, UUID recipientId) {
         claimEntityRepository.save(ClaimEntity.builder()
                 .itemId(itemId)
                 .orderId(orderId)
@@ -28,6 +29,8 @@ public class ClaimRepository implements ClaimRepositoryApi {
                         .id(merchantInventoryId)
                         .build())
                 .status(ClaimStatus.CREATED)
+                .customerId(customerId)
+                .recipientId(recipientId)
                 .build());
     }
 

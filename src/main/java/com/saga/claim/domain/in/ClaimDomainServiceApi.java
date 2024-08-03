@@ -5,10 +5,11 @@ import com.saga.claim.domain.model.Claim;
 import com.saga.claim.domain.model.enums.ShipmentStatusDomain;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ClaimDomainServiceApi {
 
-    void createClaim(String orderId, Integer itemId, Integer merchantInventoryId);
+    void createClaim(String orderId, Integer itemId, Integer merchantInventoryId, UUID customerId, UUID recipientId);
 
     void createShipment(Integer claimId);
 

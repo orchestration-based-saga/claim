@@ -4,6 +4,7 @@ import com.saga.claim.domain.model.enums.ClaimStatusDomain;
 import lombok.Builder;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Builder
 public record Claim(
@@ -13,18 +14,20 @@ public record Claim(
         Integer merchantInventoryId,
         Integer shipmentId,
         BigDecimal refundAmount,
-        ClaimStatusDomain status
+        ClaimStatusDomain status,
+        UUID customerId,
+        UUID recipientId
 ) {
 
     public Claim updateStatus(ClaimStatusDomain status) {
-        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status);
+        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status, customerId, recipientId);
     }
 
     public Claim setShipmentId(Integer shipmentId) {
-        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status);
+        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status, customerId, recipientId);
     }
 
     public Claim updateRefundAmount(BigDecimal refundAmount) {
-        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status);
+        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status, customerId, recipientId);
     }
 }

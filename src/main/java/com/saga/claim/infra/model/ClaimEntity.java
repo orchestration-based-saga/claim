@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity(name = "Claim")
 @Getter
@@ -26,4 +27,6 @@ public class ClaimEntity {
     @OneToOne
     @JoinColumn(name = "merchant_inventory_id", referencedColumnName = "id")
     MerchantProductEntity product;
+    UUID customerId;
+    UUID recipientId;
 }

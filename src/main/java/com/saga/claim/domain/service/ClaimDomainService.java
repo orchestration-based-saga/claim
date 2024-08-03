@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -23,8 +24,8 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
     private final ClaimProducerApi claimProducerApi;
 
     @Override
-    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId) {
-        claimRepositoryApi.createClaim(orderId, itemId, merchantInventoryId);
+    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId, UUID customerId, UUID recipientId) {
+        claimRepositoryApi.createClaim(orderId, itemId, merchantInventoryId, customerId, recipientId);
     }
 
     @Override

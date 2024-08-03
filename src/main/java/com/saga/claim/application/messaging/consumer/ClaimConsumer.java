@@ -4,7 +4,6 @@ import com.saga.claim.application.mapper.ClaimMapper;
 import com.saga.claim.application.messaging.api.ClaimUpdate;
 import com.saga.claim.application.messaging.api.CreateClaim;
 import com.saga.claim.application.messaging.api.ShipmentUpdate;
-import com.saga.claim.application.service.ClaimService;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,6 @@ import java.util.function.Consumer;
 @Component
 @RequiredArgsConstructor
 public class ClaimConsumer {
-    private final ClaimService claimService;
     private final ClaimDomainServiceApi claimDomainServiceApi;
     private final ClaimMapper claimMapper;
 
@@ -24,7 +22,12 @@ public class ClaimConsumer {
     public Consumer<Message<CreateClaim>> createClaim() {
         return msg -> {
             CreateClaim claim = msg.getPayload();
-            claimService.createClaim(claim.orderId(), claim.itemId(), claim.merchantInventoryId());
+            claimDomainServiceApi.createClaim(
+                    claim.orderId(),
+                    claim.itemId(),
+                    claim.merchantInventoryId(),
+                    claim.customerId(),
+                    claim.recipientId());
         };
     }
 

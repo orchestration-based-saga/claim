@@ -18,6 +18,8 @@ public interface ClaimMapper {
     @Mapping(target = "itemId", ignore = true)
     @Mapping(target = "merchantInventoryId", ignore = true)
     @Mapping(target = "refundAmount", ignore = true)
+    @Mapping(target = "customerId", ignore = true)
+    @Mapping(target = "recipientId", ignore = true)
     Claim fromUpdateMessage(ClaimUpdate claimUpdate);
 
     ShipmentStatusDomain fromShipmentStatus(ShipmentStatus shipmentStatus);
