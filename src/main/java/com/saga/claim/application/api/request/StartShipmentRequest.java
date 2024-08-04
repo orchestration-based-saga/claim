@@ -1,4 +1,4 @@
-package com.saga.claim.application.controller.api;
+package com.saga.claim.application.api.request;
 
 public record StartShipmentRequest(
         Integer claimId,

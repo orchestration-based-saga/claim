@@ -1,9 +1,9 @@
 package com.saga.claim.application.messaging.consumer;
 
 import com.saga.claim.application.mapper.ClaimMapper;
-import com.saga.claim.application.messaging.api.ClaimUpdate;
-import com.saga.claim.application.messaging.api.CreateClaim;
-import com.saga.claim.application.messaging.api.ShipmentUpdate;
+import com.saga.claim.application.api.event.ClaimUpdateMessage;
+import com.saga.claim.application.api.event.CreateClaimMessage;
+import com.saga.claim.application.api.event.ShipmentUpdateMessage;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,9 +19,9 @@ public class ClaimConsumer {
     private final ClaimMapper claimMapper;
 
     @Bean
-    public Consumer<Message<CreateClaim>> createClaim() {
+    public Consumer<Message<CreateClaimMessage>> createClaim() {
         return msg -> {
-            CreateClaim claim = msg.getPayload();
+            CreateClaimMessage claim = msg.getPayload();
             claimDomainServiceApi.createClaim(
                     claim.orderId(),
                     claim.itemId(),
@@ -32,18 +32,18 @@ public class ClaimConsumer {
     }
 
     @Bean
-    public Consumer<Message<ClaimUpdate>> updateClaim() {
+    public Consumer<Message<ClaimUpdateMessage>> updateClaim() {
         return msg -> {
             claimDomainServiceApi.assignShipmentToClaim(claimMapper.fromUpdateMessage(msg.getPayload()));
         };
     }
 
     @Bean
-    public Consumer<Message<ShipmentUpdate>> shipmentUpdate() {
+    public Consumer<Message<ShipmentUpdateMessage>> shipmentUpdate() {
         return msg -> {
-            ShipmentUpdate shipmentUpdate = msg.getPayload();
+            ShipmentUpdateMessage shipmentUpdateMessage = msg.getPayload();
             claimDomainServiceApi.updateClaimByShipmentStatus(
-                    shipmentUpdate.claim().id(), claimMapper.fromShipmentStatus(shipmentUpdate.status()));
+                    shipmentUpdateMessage.claim().id(), claimMapper.fromShipmentStatus(shipmentUpdateMessage.status()));
         };
     }
 }

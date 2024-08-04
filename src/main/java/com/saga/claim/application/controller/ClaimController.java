@@ -1,8 +1,8 @@
 package com.saga.claim.application.controller;
 
-import com.saga.claim.application.controller.api.ClaimResponse;
-import com.saga.claim.application.controller.api.RefundRequest;
-import com.saga.claim.application.controller.api.StartShipmentRequest;
+import com.saga.claim.application.api.response.ClaimResponse;
+import com.saga.claim.application.api.request.RefundRequest;
+import com.saga.claim.application.api.request.StartShipmentRequest;
 import com.saga.claim.application.service.ClaimService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

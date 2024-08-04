@@ -1,8 +1,8 @@
 package com.saga.claim.application.service;
 
-import com.saga.claim.application.controller.api.ClaimResponse;
-import com.saga.claim.application.controller.api.RefundRequest;
-import com.saga.claim.application.controller.api.StartShipmentRequest;
+import com.saga.claim.application.api.response.ClaimResponse;
+import com.saga.claim.application.api.request.RefundRequest;
+import com.saga.claim.application.api.request.StartShipmentRequest;
 import com.saga.claim.application.mapper.ClaimMapper;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import com.saga.claim.domain.model.enums.ClaimStatusDomain;

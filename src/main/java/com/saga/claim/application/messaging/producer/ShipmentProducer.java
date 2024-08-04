@@ -1,7 +1,7 @@
 package com.saga.claim.application.messaging.producer;
 
-import com.saga.claim.application.messaging.api.CreateShipment;
-import com.saga.claim.application.messaging.api.enums.ClaimState;
+import com.saga.claim.application.api.event.CreateShipmentMessage;
+import com.saga.claim.application.api.enums.ClaimState;
 import com.saga.claim.domain.model.Claim;
 import com.saga.claim.domain.out.ShipmentProducerApi;
 import com.saga.claim.infra.common.event.StreamBindingConstants;
@@ -19,7 +19,7 @@ public class ShipmentProducer implements ShipmentProducerApi {
     @Override
     public void createShipment(Claim claim) {
         streamBridge.send(StreamBindingConstants.CREATE_SHIPMENT, MessageBuilder.withPayload(
-                        new CreateShipment(
+                        new CreateShipmentMessage(
                                 claim.orderId(),
                                 claim.itemId(),
                                 claim.merchantInventoryId(),

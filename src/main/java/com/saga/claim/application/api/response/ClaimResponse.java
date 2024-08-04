@@ -1,6 +1,6 @@
-package com.saga.claim.application.controller.api;
+package com.saga.claim.application.api.response;
 
-import com.saga.claim.application.messaging.api.enums.ClaimState;
+import com.saga.claim.application.api.enums.ClaimState;
 
 public record ClaimResponse(
         Integer id,
