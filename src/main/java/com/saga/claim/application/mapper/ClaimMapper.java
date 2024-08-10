@@ -39,7 +39,4 @@ public interface ClaimMapper {
     @Mapping(target = "refundAmount", ignore = true)
     @Mapping(target = "status", ignore = true)
     Claim fromCreateMessage(CreateClaimMessage message);
-
-    @Mapping(target = "id", source = "request.id")
-    ItemServicingProcessResponse toItemServicingResponse(ItemServicingRequest request, Claim claim);
 }

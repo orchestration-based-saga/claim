@@ -3,7 +3,6 @@ package com.saga.claim.application.messaging.producer;
 import com.saga.claim.application.api.event.CreateShipmentMessage;
 import com.saga.claim.application.api.enums.ClaimState;
 import com.saga.claim.domain.model.Claim;
-import com.saga.claim.domain.out.ShipmentProducerApi;
 import com.saga.claim.infra.common.event.StreamBindingConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;

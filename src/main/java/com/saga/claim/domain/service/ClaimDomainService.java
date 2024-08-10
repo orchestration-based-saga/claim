@@ -8,7 +8,6 @@ import com.saga.claim.domain.model.enums.ClaimStatusDomain;
 import com.saga.claim.domain.model.enums.ShipmentStatusDomain;
 import com.saga.claim.domain.out.ClaimProducerApi;
 import com.saga.claim.domain.out.ClaimRepositoryApi;
-import com.saga.claim.domain.out.ShipmentProducerApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,13 +19,11 @@ import java.util.Optional;
 public class ClaimDomainService implements ClaimDomainServiceApi {
 
     private final ClaimRepositoryApi claimRepositoryApi;
-    private final ShipmentProducerApi shipmentProducerApi;
     private final ClaimProducerApi claimProducerApi;
 
     @Override
     public void createClaim(Claim claim, ItemServicingRequest request) {
-        claim = claimRepositoryApi.createClaim(claim, request.businessKey());
-        claimProducerApi.sendCreateClaimResponse(request, claim);
+        claimRepositoryApi.createClaim(claim, request.businessKey());
     }
 
     @Override
@@ -38,8 +35,8 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
         Claim claim = maybeClaim.get();
         claim = claim.updateStatus(ClaimStatusDomain.RETURNING_TO_WAREHOUSE);
         claimRepositoryApi.save(claim);
-        shipmentProducerApi.createShipment(claim);
         log.info("Initiated shipment for claim: {}", claimId);
+        claimProducerApi.sendCreateClaimResponse(claim);
     }
 
     @Override

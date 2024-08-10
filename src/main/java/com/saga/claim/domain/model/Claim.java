@@ -16,18 +16,49 @@ public record Claim(
         BigDecimal refundAmount,
         ClaimStatusDomain status,
         UUID customerId,
-        UUID recipientId
+        UUID recipientId,
+        String businessKey
 ) {
 
     public Claim updateStatus(ClaimStatusDomain status) {
-        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status, customerId, recipientId);
+        return new Claim(
+                id,
+                orderId,
+                itemId,
+                merchantInventoryId,
+                shipmentId,
+                refundAmount,
+                status,
+                customerId,
+                recipientId,
+                businessKey);
     }
 
     public Claim setShipmentId(Integer shipmentId) {
-        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status, customerId, recipientId);
+        return new Claim(
+                id,
+                orderId,
+                itemId,
+                merchantInventoryId,
+                shipmentId,
+                refundAmount,
+                status,
+                customerId,
+                recipientId,
+                businessKey);
     }
 
     public Claim updateRefundAmount(BigDecimal refundAmount) {
-        return new Claim(id, orderId, itemId, merchantInventoryId, shipmentId, refundAmount, status, customerId, recipientId);
+        return new Claim(
+                id,
+                orderId,
+                itemId,
+                merchantInventoryId,
+                shipmentId,
+                refundAmount,
+                status,
+                customerId,
+                recipientId,
+                businessKey);
     }
 }
