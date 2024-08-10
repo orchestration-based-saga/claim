@@ -1,10 +1,10 @@
 package com.saga.claim.application.mapper;
 
 import com.saga.claim.application.api.enums.ShipmentStatus;
+import com.saga.claim.application.api.event.ClaimResponseMessage;
 import com.saga.claim.application.api.event.ClaimUpdateMessage;
 import com.saga.claim.application.api.event.CreateClaimMessage;
 import com.saga.claim.application.api.event.ItemServicingProcessRequest;
-import com.saga.claim.application.api.event.ItemServicingProcessResponse;
 import com.saga.claim.application.api.request.RefundRequest;
 import com.saga.claim.application.api.response.ClaimResponse;
 import com.saga.claim.domain.model.Claim;
@@ -24,6 +24,7 @@ public interface ClaimMapper {
     @Mapping(target = "refundAmount", ignore = true)
     @Mapping(target = "customerId", ignore = true)
     @Mapping(target = "recipientId", ignore = true)
+    @Mapping(target = "businessKey", ignore = true)
     Claim fromUpdateMessage(ClaimUpdateMessage claimUpdateMessage);
 
     ShipmentStatusDomain fromShipmentStatus(ShipmentStatus shipmentStatus);
@@ -38,5 +39,7 @@ public interface ClaimMapper {
     @Mapping(target = "shipmentId", ignore = true)
     @Mapping(target = "refundAmount", ignore = true)
     @Mapping(target = "status", ignore = true)
-    Claim fromCreateMessage(CreateClaimMessage message);
+    Claim fromCreateMessage(CreateClaimMessage message, String businessKey);
+
+    ClaimResponseMessage toClaimResponse(Claim claim, Boolean shipmentInitiated);
 }

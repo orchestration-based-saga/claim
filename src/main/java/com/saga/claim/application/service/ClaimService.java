@@ -19,9 +19,7 @@ public class ClaimService {
     private final ClaimMapper claimMapper;
 
     public void createShipment(StartShipmentRequest request){
-        if (request.start()) {
-            claimDomainServiceApi.createShipment(request.claimId());
-        }
+        claimDomainServiceApi.createShipment(request.claimId(), request.start());
     }
 
     public List<ClaimResponse> getAllActiveClaims(){

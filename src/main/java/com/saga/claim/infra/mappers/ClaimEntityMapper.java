@@ -25,7 +25,6 @@ public interface ClaimEntityMapper {
 
     @Mapping(target = "product", source = "claim.merchantInventoryId", qualifiedByName = "linkProduct")
     @Mapping(target = "refundAmount", ignore = true)
-    @Mapping(target = "businessKey", ignore = true)
     ClaimEntity toEntity(Claim claim);
 
     @Named("linkProduct")

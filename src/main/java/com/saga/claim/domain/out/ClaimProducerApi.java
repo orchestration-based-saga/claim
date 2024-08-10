@@ -6,5 +6,5 @@ public interface ClaimProducerApi {
 
     void sendClaim(Claim claim);
 
-    void sendCreateClaimResponse(Claim claim);
+    void sendCreateClaimResponse(Claim claim, Boolean shipmentInitiated);
 }

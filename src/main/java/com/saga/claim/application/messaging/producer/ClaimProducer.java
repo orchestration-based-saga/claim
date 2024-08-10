@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ClaimProducer implements ClaimProducerApi {
     private final StreamBridge streamBridge;
+    private final ClaimMapper claimMapper;
 
     @Override
     public void sendClaim(Claim claim) {
@@ -23,11 +24,11 @@ public class ClaimProducer implements ClaimProducerApi {
     }
 
     @Override
-    public void sendCreateClaimResponse(Claim claim) {
+    public void sendCreateClaimResponse(Claim claim, Boolean shipmentInitiated) {
         ItemServicingProcessResponse response = new ItemServicingProcessResponse(
                 WorkflowConstants.ITEM_SERVICING,
                 claim.businessKey(),
-                claim
+                claimMapper.toClaimResponse(claim, shipmentInitiated)
         );
         streamBridge.send(StreamBindingConstants.CREATE_CLAIM_RESPONSE, MessageBuilder
                 .withPayload(response)

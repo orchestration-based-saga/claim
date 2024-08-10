@@ -11,7 +11,7 @@ public interface ClaimDomainServiceApi {
 
     void createClaim(Claim claim, ItemServicingRequest request);
 
-    void createShipment(Integer claimId);
+    void createShipment(Integer claimId, Boolean shipmentInitiated);
 
     void assignShipmentToClaim(Claim claim);
 

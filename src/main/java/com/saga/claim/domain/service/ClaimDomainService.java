@@ -10,6 +10,7 @@ import com.saga.claim.domain.out.ClaimProducerApi;
 import com.saga.claim.domain.out.ClaimRepositoryApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.common.protocol.types.Field;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,16 +28,17 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
     }
 
     @Override
-    public void createShipment(Integer claimId) {
+    public void createShipment(Integer claimId, Boolean shipmentInitiated) {
         Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claimId);
         if (maybeClaim.isEmpty()) {
+            // todo replace exception with error
             throw new RuntimeException("Invalid claim id: " + claimId);
         }
         Claim claim = maybeClaim.get();
         claim = claim.updateStatus(ClaimStatusDomain.RETURNING_TO_WAREHOUSE);
         claimRepositoryApi.save(claim);
         log.info("Initiated shipment for claim: {}", claimId);
-        claimProducerApi.sendCreateClaimResponse(claim);
+        claimProducerApi.sendCreateClaimResponse(claim, shipmentInitiated);
     }
 
     @Override

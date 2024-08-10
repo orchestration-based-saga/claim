@@ -25,7 +25,7 @@ public class ClaimConsumer {
         return msg -> {
             ItemServicingProcessRequest request = msg.getPayload();
             ItemServicingRequest itemServicingRequest = claimMapper.toItemServicingRequest(request);
-            Claim claim = claimMapper.fromCreateMessage(request.claim());
+            Claim claim = claimMapper.fromCreateMessage(request.claim(), request.businessKey());
             claimDomainServiceApi.createClaim(claim, itemServicingRequest);
         };
     }
