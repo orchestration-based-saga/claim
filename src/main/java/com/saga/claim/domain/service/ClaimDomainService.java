@@ -25,7 +25,8 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
 
     @Override
     public void createClaim(Claim claim, ItemServicingRequest request) {
-        claimRepositoryApi.createClaim(claim, request.businessKey());
+        claim = claimRepositoryApi.createClaim(claim, request.businessKey());
+        claimProducerApi.sendCreateClaimResponse(request, claim);
     }
 
     @Override

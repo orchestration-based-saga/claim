@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ClaimRepositoryApi {
 
-    void createClaim(Claim claim, String businessKey);
+    Claim createClaim(Claim claim, String businessKey);
 
     Optional<Claim> getClaimById(Integer claimId);
 

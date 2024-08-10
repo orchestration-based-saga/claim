@@ -19,11 +19,12 @@ public class ClaimRepository implements ClaimRepositoryApi {
     private final ClaimEntityMapper mapper;
 
     @Override
-    public void createClaim(Claim claim, String businessKey) {
+    public Claim createClaim(Claim claim, String businessKey) {
         ClaimEntity claimEntity = mapper.toEntity(claim);
         claimEntity.setBusinessKey(businessKey);
         claimEntity.setStatus(ClaimStatus.CREATED);
-        claimEntityRepository.save(claimEntity);
+        claimEntity = claimEntityRepository.save(claimEntity);
+        return  mapper.toDomain(claimEntity);
     }
 
     @Override
