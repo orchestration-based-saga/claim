@@ -15,6 +15,7 @@ import java.util.List;
 public interface ClaimEntityMapper {
 
     ClaimStatusDomain toDomain(ClaimStatus claimStatus);
+
     ClaimStatus toEntity(ClaimStatusDomain status);
 
     @Mapping(target = "merchantInventoryId", source = "claimEntity.product.id")
@@ -24,10 +25,14 @@ public interface ClaimEntityMapper {
 
     @Mapping(target = "product", source = "claim.merchantInventoryId", qualifiedByName = "linkProduct")
     @Mapping(target = "refundAmount", ignore = true)
+    @Mapping(target = "businessKey", ignore = true)
     ClaimEntity toEntity(Claim claim);
 
     @Named("linkProduct")
     default MerchantProductEntity linkProduct(Integer merchantInventoryId) {
+        if (merchantInventoryId == null) {
+            return null;
+        }
         return MerchantProductEntity.builder()
                 .id(merchantInventoryId)
                 .build();

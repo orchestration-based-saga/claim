@@ -1,0 +1,1 @@
+alter table claim add column if not exists business_key text not null;

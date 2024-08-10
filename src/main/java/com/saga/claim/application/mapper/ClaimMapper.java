@@ -1,11 +1,14 @@
 package com.saga.claim.application.mapper;
 
-import com.saga.claim.application.api.response.ClaimResponse;
-import com.saga.claim.application.api.request.RefundRequest;
-import com.saga.claim.application.api.event.ClaimUpdateMessage;
 import com.saga.claim.application.api.enums.ShipmentStatus;
-import com.saga.claim.domain.model.Refund;
+import com.saga.claim.application.api.event.ClaimUpdateMessage;
+import com.saga.claim.application.api.event.CreateClaimMessage;
+import com.saga.claim.application.api.event.ItemServicingProcessRequest;
+import com.saga.claim.application.api.request.RefundRequest;
+import com.saga.claim.application.api.response.ClaimResponse;
 import com.saga.claim.domain.model.Claim;
+import com.saga.claim.domain.model.ItemServicingRequest;
+import com.saga.claim.domain.model.Refund;
 import com.saga.claim.domain.model.enums.ShipmentStatusDomain;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -27,4 +30,12 @@ public interface ClaimMapper {
     ClaimResponse toResponse(Claim claim);
 
     Refund toDomain(RefundRequest request);
+
+    ItemServicingRequest toItemServicingRequest(ItemServicingProcessRequest request);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "shipmentId", ignore = true)
+    @Mapping(target = "refundAmount", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    Claim fromCreateMessage(CreateClaimMessage message);
 }

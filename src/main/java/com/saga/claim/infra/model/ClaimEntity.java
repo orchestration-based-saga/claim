@@ -29,4 +29,5 @@ public class ClaimEntity {
     MerchantProductEntity product;
     UUID customerId;
     UUID recipientId;
+    String businessKey;
 }

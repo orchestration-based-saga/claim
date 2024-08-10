@@ -33,7 +33,7 @@ spring:
             linger.ms: 1
       bindings:
         createClaim-in-0:
-          destination: create_claim
+          destination: workflow-claim-create-request
           content-type: application/json
           group: claim_group
         updateClaim-in-0:

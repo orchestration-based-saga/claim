@@ -1,8 +1,9 @@
 package com.saga.claim.domain.service;
 
-import com.saga.claim.domain.model.Refund;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import com.saga.claim.domain.model.Claim;
+import com.saga.claim.domain.model.ItemServicingRequest;
+import com.saga.claim.domain.model.Refund;
 import com.saga.claim.domain.model.enums.ClaimStatusDomain;
 import com.saga.claim.domain.model.enums.ShipmentStatusDomain;
 import com.saga.claim.domain.out.ClaimProducerApi;
@@ -13,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -24,8 +24,8 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
     private final ClaimProducerApi claimProducerApi;
 
     @Override
-    public void createClaim(String orderId, Integer itemId, Integer merchantInventoryId, UUID customerId, UUID recipientId) {
-        claimRepositoryApi.createClaim(orderId, itemId, merchantInventoryId, customerId, recipientId);
+    public void createClaim(Claim claim, ItemServicingRequest request) {
+        claimRepositoryApi.createClaim(claim, request.businessKey());
     }
 
     @Override

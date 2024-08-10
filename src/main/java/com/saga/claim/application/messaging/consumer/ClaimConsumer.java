@@ -1,10 +1,12 @@
 package com.saga.claim.application.messaging.consumer;
 
-import com.saga.claim.application.mapper.ClaimMapper;
 import com.saga.claim.application.api.event.ClaimUpdateMessage;
-import com.saga.claim.application.api.event.CreateClaimMessage;
+import com.saga.claim.application.api.event.ItemServicingProcessRequest;
 import com.saga.claim.application.api.event.ShipmentUpdateMessage;
+import com.saga.claim.application.mapper.ClaimMapper;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
+import com.saga.claim.domain.model.Claim;
+import com.saga.claim.domain.model.ItemServicingRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
@@ -19,15 +21,12 @@ public class ClaimConsumer {
     private final ClaimMapper claimMapper;
 
     @Bean
-    public Consumer<Message<CreateClaimMessage>> createClaim() {
+    public Consumer<Message<ItemServicingProcessRequest>> createClaim() {
         return msg -> {
-            CreateClaimMessage claim = msg.getPayload();
-            claimDomainServiceApi.createClaim(
-                    claim.orderId(),
-                    claim.itemId(),
-                    claim.merchantInventoryId(),
-                    claim.customerId(),
-                    claim.recipientId());
+            ItemServicingProcessRequest request = msg.getPayload();
+            ItemServicingRequest itemServicingRequest = claimMapper.toItemServicingRequest(request);
+            Claim claim = claimMapper.fromCreateMessage(request.claim());
+            claimDomainServiceApi.createClaim(claim, itemServicingRequest);
         };
     }
 
