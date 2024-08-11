@@ -33,8 +33,8 @@ public class ClaimRepository implements ClaimRepositoryApi {
     }
 
     @Override
-    public void save(Claim claim) {
-        claimEntityRepository.save(mapper.toEntity(claim));
+    public Claim save(Claim claim) {
+        return mapper.toDomain(claimEntityRepository.save(mapper.toEntity(claim)));
     }
 
     @Override

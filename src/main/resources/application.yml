@@ -7,7 +7,7 @@ spring:
     username: postgres
   cloud:
     function:
-      definition: createClaim;updateClaim;shipmentUpdate;sendCreateClaimResponse
+      definition: createClaim;updateClaim;sendCreateClaimResponse;sendUpdateClaimResponse
     config:
       enable: true
     stream:
@@ -40,10 +40,9 @@ spring:
           destination: workflow-claim-create-response
           content-type: application/json
         updateClaim-in-0:
-          destination: update_claim
+          destination: workflow-claim-update-request
           content-type: application/json
           group: claim_group
-        shipmentUpdate-in-0:
-          destination: shipment
+        sendUpdateClaimResponse-out-0:
+          destination: workflow-claim-update-response
           content-type: application/json
-          group: claim-group

@@ -8,7 +8,7 @@ public record ItemServicingProcessRequest(
         String businessKey,
         Long parentProcessId,
         UUID workflow,
-        CreateClaimMessage claim
+        ClaimMessage claim
         )
 {
 

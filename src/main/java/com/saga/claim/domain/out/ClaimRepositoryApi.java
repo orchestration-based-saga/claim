@@ -11,7 +11,7 @@ public interface ClaimRepositoryApi {
 
     Optional<Claim> getClaimById(Integer claimId);
 
-    void save(Claim claim);
+    Claim save(Claim claim);
 
     List<Claim> getAll();
 }

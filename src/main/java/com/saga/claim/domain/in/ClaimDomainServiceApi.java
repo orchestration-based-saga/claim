@@ -13,7 +13,7 @@ public interface ClaimDomainServiceApi {
 
     void createShipment(Integer claimId, Boolean shipmentInitiated);
 
-    void assignShipmentToClaim(Claim claim);
+    void assignShipmentToClaim(Claim claim, ItemServicingRequest request);
 
     void updateClaimByShipmentStatus(Integer claimId, ShipmentStatusDomain shipmentStatus);
 

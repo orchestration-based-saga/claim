@@ -42,7 +42,7 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
     }
 
     @Override
-    public void assignShipmentToClaim(Claim claim) {
+    public void assignShipmentToClaim(Claim claim, ItemServicingRequest request) {
         Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claim.id());
         if (maybeClaim.isEmpty()) {
             throw new RuntimeException("Couldn't find claim with id: " + "on update claim event");
@@ -54,7 +54,8 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
         if (claim.shipmentId() != null) {
             claimToUpdate = claimToUpdate.setShipmentId(claim.shipmentId());
         }
-        claimRepositoryApi.save(claimToUpdate);
+        claimToUpdate = claimRepositoryApi.save(claimToUpdate);
+        claimProducerApi.sendUpdateClaimResponse(claimToUpdate, request);
     }
 
     @Override

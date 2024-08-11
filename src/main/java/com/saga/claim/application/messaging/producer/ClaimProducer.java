@@ -34,4 +34,16 @@ public class ClaimProducer implements ClaimProducerApi {
                 .withPayload(response)
                 .build());
     }
+
+    @Override
+    public void sendUpdateClaimResponse(Claim claim, ItemServicingRequest request) {
+        ItemServicingProcessResponse response = new ItemServicingProcessResponse(
+                WorkflowConstants.ITEM_SERVICING,
+                claim.businessKey(),
+                claimMapper.toClaimResponse(claim, null)
+        );
+        streamBridge.send(StreamBindingConstants.UPDATE_CLAIM_RESPONSE, MessageBuilder
+                .withPayload(response)
+                .build());
+    }
 }
