@@ -1,6 +1,7 @@
 package com.saga.claim.application.messaging.consumer;
 
 import com.saga.claim.application.api.event.ItemServicingProcessRequest;
+import com.saga.claim.application.api.event.ShipmentUpdateMessage;
 import com.saga.claim.application.mapper.ClaimMapper;
 import com.saga.claim.domain.in.ClaimDomainServiceApi;
 import com.saga.claim.domain.model.Claim;
@@ -35,6 +36,15 @@ public class ClaimConsumer {
             ItemServicingRequest itemServicingRequest = claimMapper.toItemServicingRequest(request);
             Claim claim = claimMapper.fromUpdateMessage(request.claim());
             claimDomainServiceApi.assignShipmentToClaim(claim, itemServicingRequest);
+        };
+    }
+
+    @Bean
+    public Consumer<Message<ShipmentUpdateMessage>> shipment() {
+        return msg -> {
+            ShipmentUpdateMessage message = msg.getPayload();
+            claimDomainServiceApi.updateClaimByShipmentStatus(message.claim().id(),
+                    claimMapper.fromShipmentStatus(message.status()));
         };
     }
 }
