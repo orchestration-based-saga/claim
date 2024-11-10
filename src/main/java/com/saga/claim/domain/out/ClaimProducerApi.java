@@ -1,7 +1,8 @@
 package com.saga.claim.domain.out;
 
 import com.saga.claim.domain.model.Claim;
-import com.saga.claim.domain.model.ItemServicingRequest;
+
+import java.math.BigDecimal;
 
 public interface ClaimProducerApi {
 
@@ -9,5 +10,7 @@ public interface ClaimProducerApi {
 
     void sendCreateClaimResponse(Claim claim, Boolean shipmentInitiated);
 
-    void sendUpdateClaimResponse(Claim claim, ItemServicingRequest request);
+    void sendUpdateClaimResponse(Claim claim);
+
+    void initiateRefund(Claim claim, boolean isForRefund, BigDecimal refundAmount);
 }

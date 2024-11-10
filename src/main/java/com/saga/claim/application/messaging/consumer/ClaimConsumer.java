@@ -33,9 +33,8 @@ public class ClaimConsumer {
     public Consumer<Message<ItemServicingProcessRequest>> updateClaim() {
         return msg -> {
             ItemServicingProcessRequest request = msg.getPayload();
-            ItemServicingRequest itemServicingRequest = claimMapper.toItemServicingRequest(request);
             Claim claim = claimMapper.fromUpdateMessage(request.claim());
-            claimDomainServiceApi.assignShipmentToClaim(claim, itemServicingRequest);
+            claimDomainServiceApi.assignShipmentToClaim(claim);
         };
     }
 

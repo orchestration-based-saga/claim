@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.protocol.types.Field;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +43,7 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
     }
 
     @Override
-    public void assignShipmentToClaim(Claim claim, ItemServicingRequest request) {
+    public void assignShipmentToClaim(Claim claim) {
         Optional<Claim> maybeClaim = claimRepositoryApi.getClaimById(claim.id());
         if (maybeClaim.isEmpty()) {
             throw new RuntimeException("Couldn't find claim with id: " + "on update claim event");
@@ -55,7 +56,7 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
             claimToUpdate = claimToUpdate.setShipmentId(claim.shipmentId());
         }
         claimToUpdate = claimRepositoryApi.save(claimToUpdate);
-        claimProducerApi.sendUpdateClaimResponse(claimToUpdate, request);
+        claimProducerApi.sendUpdateClaimResponse(claimToUpdate);
     }
 
     @Override
@@ -85,10 +86,13 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
             throw new RuntimeException("Couldn't find claim with id: " + "on refund request");
         }
         Claim claim = maybeClaim.get();
-        claim = claim.updateStatus(ClaimStatusDomain.REFUNDED);
+        boolean isForRefund = refund.refundAmount().compareTo(BigDecimal.ZERO) != 0;
+        var status = isForRefund ? ClaimStatusDomain.REFUNDED: ClaimStatusDomain.FINISHED;
+        claim = claim.updateStatus(status);
         claim = claim.updateRefundAmount(refund.refundAmount());
 
+
         claimRepositoryApi.save(claim);
-        claimProducerApi.sendClaim(claim);
+        claimProducerApi.initiateRefund(claim, isForRefund, refund.refundAmount());
     }
 }

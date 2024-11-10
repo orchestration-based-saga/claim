@@ -1,6 +1,7 @@
 package com.saga.claim.application.messaging.producer;
 
 import com.saga.claim.application.api.enums.WorkflowConstants;
+import com.saga.claim.application.api.event.ItemRefundProcessRequest;
 import com.saga.claim.application.api.event.ItemServicingProcessResponse;
 import com.saga.claim.application.mapper.ClaimMapper;
 import com.saga.claim.domain.model.Claim;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor
@@ -36,13 +39,27 @@ public class ClaimProducer implements ClaimProducerApi {
     }
 
     @Override
-    public void sendUpdateClaimResponse(Claim claim, ItemServicingRequest request) {
+    public void sendUpdateClaimResponse(Claim claim) {
         ItemServicingProcessResponse response = new ItemServicingProcessResponse(
                 WorkflowConstants.ITEM_SERVICING,
                 claim.businessKey(),
                 claimMapper.toClaimResponse(claim, null)
         );
         streamBridge.send(StreamBindingConstants.UPDATE_CLAIM_RESPONSE, MessageBuilder
+                .withPayload(response)
+                .build());
+    }
+
+    @Override
+    public void initiateRefund(Claim claim, boolean isForRefund, BigDecimal refundAmount) {
+        ItemRefundProcessRequest response = new ItemRefundProcessRequest(
+                WorkflowConstants.ITEM_SERVICING_REFUND,
+                claim.businessKey(),
+                isForRefund,
+                refundAmount,
+                claimMapper.toClaimResponse(claim, null)
+        );
+        streamBridge.send(StreamBindingConstants.REFUND, MessageBuilder
                 .withPayload(response)
                 .build());
     }
