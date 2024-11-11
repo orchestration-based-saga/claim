@@ -94,5 +94,6 @@ public class ClaimDomainService implements ClaimDomainServiceApi {
 
         claimRepositoryApi.save(claim);
         claimProducerApi.initiateRefund(claim, isForRefund, refund.refundAmount());
+        claimProducerApi.sendClaim(claim);
     }
 }
